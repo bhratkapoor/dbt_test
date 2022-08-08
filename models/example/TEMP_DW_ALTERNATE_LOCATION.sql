@@ -5,7 +5,8 @@
 ) }}
 
 WITH ctrl_dt AS (
-  select current_timestamp() as start_dt
+  select to_varchar(T1.START_DTTM, 'YYYY-MM-DD HH:MI:SS') as start_dt, to_varchar(T1.CURR_TIME, 'YYYY-MM-DD HH:MI:SS') as end_dt from (select TO_TIMESTAMP_NTZ(max(START_DTTM)) START_DTTM, TO_TIMESTAMP_NTZ(CURRENT_TIMESTAMP(0)) CURR_TIME 
+  from TEST.CRS_ETL.DATE_CNTL WHERE TABLE_NM = 'DW_ALTERNATE_LOCATION') T1
   ),
   temp as (
   SELECT
@@ -29,6 +30,8 @@ concat('HSH' || a.OtherLocation_ID) as DW_ALT_LOC_ID
 FROM  {{source('SCHEDULE', 'EHC_SCH_OtherLocations')}} as a
 left join  {{source('SCHEDULE', 'EHC_REFERENCE_MASTER')}} as b
 on a.Location_Type_Code = b.Reference_Master_ID
-where  a.SNOWFLAKECREATEDTTM >= 'ctrl_dt.start_dt' and a.SNOWFLAKECREATEDTTM <='ctrl_dt.start_dt'
+left join ctrl_dt
+on 1=1
+where  a.SNOWFLAKECREATEDTTM >= 'ctrl_dt.start_dt' and a.SNOWFLAKECREATEDTTM <= 'ctrl_dt.end_dt'
 )
 select * from temp
