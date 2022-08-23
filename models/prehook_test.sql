@@ -4,6 +4,14 @@
   schema='temp_schema'
 ) }}
 
+{% set query %}
+        select cast(1 as integer) 
+    {% endset %}
+{% set count1 = 1 %}
+
+
+
+
 WITH ctrl_dt AS (
   select current_timestamp() as start_dt
   ),
@@ -11,7 +19,10 @@ WITH ctrl_dt AS (
 
        select current_date() as end_dt
   ),
-  temp as (
+    temp as (
+
+{% if count1 > 2 %}
+
   SELECT
 concat('HSH' || a.OtherLocation_ID) as DW_ALT_LOC_ID
 ,a.OtherLocation_ID as ALTERNAT_LOC_ID
@@ -34,5 +45,9 @@ FROM TEST.CRS_COMPACT.EHC_SCH_OtherLocations as a
 left join TEST.CRS_COMPACT.EHC_REFERENCE_MASTER as b
 on a.Location_Type_Code = b.Reference_Master_ID
 --where  a.SNOWFLAKECREATEDTTM >= (select end_dt from end_dt) and a.SNOWFLAKECREATEDTTM <='end_dt.end_dt'
-)
+{% else %}
+ select current_timestamp()
+ 
+ {% endif %} 
+     )
 select * from temp

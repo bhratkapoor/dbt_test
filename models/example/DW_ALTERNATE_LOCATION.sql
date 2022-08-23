@@ -5,7 +5,9 @@
 		database='Test',
 		schema='CRS_Foundation',
         transient=true,
-        post_hook="delete from  TEST.TEMP_SCHEMA.TEMP_DW_ALTERNATE_LOCATION"
+        post_hook={"sql":"delete from  TEST.TEMP_SCHEMA.TEMP_DW_ALTERNATE_LOCATION"
+      
+        }
     )
 }}
 
