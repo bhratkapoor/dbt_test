@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: SCHEDULE
+    database: TEST
+    schema: CRS_COMPACT
+    tables:
+      - name: EHC_REFERENCE_MASTER
+      - name: EHC_SCH_OtherLocations
+      - name: EHC_SCH_MEMBER_CALL_APPT
+
+     
