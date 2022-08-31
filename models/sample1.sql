@@ -9,4 +9,5 @@
     )
 }}  
   
+  
   select current_date as col1
