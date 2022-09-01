@@ -1,7 +1,7 @@
 {{
     config(
         materialized='incremental',
-		unique_key='DW_ALT_LOC_ID',
+		unique_key=['DW_ALT_LOC_ID', 'ALTERNAT_LOC_ID'],
 		database='Test',
 		schema='CRS_Foundation',
         transient=true,
