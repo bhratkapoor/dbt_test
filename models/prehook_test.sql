@@ -4,15 +4,32 @@
   schema='temp_schema'
 ) }}
 
-{% set query1 %}
-        select 5 
-    {% endset %}
-{% set count2 = run_query(query1) %}  
+
+
+{%- set query %} select cast('M' as string) as number
+
+{% endset -%} 
+
+
+{% set results = run_query(query) %}
 
 {% if execute %}
-{% if (count2.rows|length) > 2 %}
-select current_date as a
-{% else %}
-select 2  as a
-{% endif %}
+
+{% set results_list = results.columns[0].values()[0] %}
+
+  
+
+        {% if results_list|string  == 'N' %}
+
+          select   'result is bigger' as a
+        {% else %}
+
+           select  'result is smaller' as b
+        
+        {% endif %}
+    
+
+
+
+
 {% endif %}
